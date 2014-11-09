@@ -1,0 +1,13 @@
+tag v1.8.12
+7961da8173575bf3b29496348a6fb80336e2b31e
+Adirelle <adirelle@gmail.com>
+2013-09-21 10:24:56 +0200
+
+Tagging as v1.8.12.
+
+
+--------------------
+
+Adirelle:
+	- TOC bump.
+	- Added Counter Shot.
