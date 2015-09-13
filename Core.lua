@@ -1129,9 +1129,17 @@ local librarySupport = {
 			local _, loader = issecurevariable(lib, "CreateButton")
 			print("|cffff0000addon: the version of LibActionButton-1.0 embedded in", (loader or "???"), "is not supported. Please consider updating it.|r")
 		end
-	end
+	end,
+	["LibActionButton-1.0-ElvUI"] = function(self, lib, minor)
+		lib.RegisterCallback(self, "OnButtonCreate", function(_, button) return buttonRegistry[button]:UpdateAction(true) end)
+		lib.RegisterCallback(self, "OnButtonUpdate", function(_, button) return buttonRegistry[button]:UpdateAction() end)
+		lib.RegisterCallback(self, "OnButtonUsable", function(_, button) return buttonRegistry[button]:UpdateUsable() end)
+		lib.RegisterCallback(self, "OnButtonState", function(_, button) return buttonRegistry[button]:UpdateState() end)
+		for button in pairs(lib:GetAllButtons()) do
+			buttonRegistry[button]:UpdateAction(true)
+		end
+	end,
 }
-
 function addon:CheckAddonSupport()
 	for major, handler in pairs(librarySupport) do
 		local lib, minor = LibStub(major, true)
@@ -1432,13 +1440,13 @@ end
 -- Chat command line
 -- GLOBALS: SLASH_INLINEAURA1
 SLASH_INLINEAURA1 = "/InlineAura"
---[===[@debug@
--- GLOBALS: SLASH_INLINEAURA2
-SLASH_INLINEAURA2= "/IA"
---@end-debug@]===]
+SLASH_INLINEAURA2 = "/ia"
+
 function SlashCmdList.INLINEAURA()
 	LoadConfigGUI()
 	InterfaceOptionsFrame_OpenToCategory(L['Inline Aura'])
+	LoadConfigGUI()
+	InterfaceOptionsFrame_OpenToCategory(L['Inline Aura']) -- WTF BLIZZARD? Why twice!?
 end
 
 -- InterfaceOptionsFrame spy
